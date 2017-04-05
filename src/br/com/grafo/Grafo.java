@@ -3,16 +3,14 @@ package br.com.grafo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author gustavo.souza
+ *
+ */
 public class Grafo {
 
 	private List<Vertice> vertices = new ArrayList<Vertice>();
-
-	public Grafo() {
-	};
-
-	public Grafo(List<Vertice> vertices) {
-		this.vertices = vertices;
-	}
 
 	public void setVertices(List<Vertice> vertices) {
 		this.vertices.addAll(vertices);

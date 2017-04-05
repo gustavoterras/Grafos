@@ -3,6 +3,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 
+ * @author gustavo.souza
+ *
+ */
 public class Dijkstra {
 
 	// Lista que guarda os vertices pertencentes ao menor caminho encontrado
@@ -20,6 +25,8 @@ public class Dijkstra {
 	// Lista dos vertices que ainda nao foram visitados
 	List<Vertice> naoVisitados = new ArrayList<Vertice>();
 
+	// Variavel que recebe o número de paradas
+	int paradas = 0;
 	
 	/***
 	 * Calcula a distÃ¢ncia total do vertice de origem ao
@@ -29,6 +36,10 @@ public class Dijkstra {
 	 * @return DistÃ¢ncia total
 	 */
 	public int calculaDistancia(Grafo grafo, String[] caminho) {
+		
+		if(caminho == null){
+			throw new NullPointerException(Constantes.CAMINHO_NULO);
+		}
 
 		// Variavel que recebe soma dos pessos das arestas
 		int distanciaTotal = 0;
@@ -151,24 +162,41 @@ public class Dijkstra {
 		return menorCaminho;
 	}
 	
-	public void buscaPorProfundidade(Vertice v1, Vertice v2) {
-		
+	/***
+	 * Metodo que varre os vertices em profundidade
+	 * @param v1 vertice raiz
+	 * @param v2 vertice final
+	 * @param maximoParadas
+	 */
+	private void buscaEmProfundidade(Vertice v1, Vertice v2, int maximoParadas) {
+
+		// Caso o número de paradas igual a número maximo de paradas retorna 		
+		if(paradas == maximoParadas) return;
+			
+		// Verifica se o vertice já foi visitado, caso sim, ignora 
 		if(v1.verificarVisita()) return;
-		
-		System.out.println("visitando " + v1.getDescricao());		
+				
+		// Adiciona a origem na lista do menor caminho
+		menorCaminho.add(v1);
 		
 		for (int i = 0; i < v1.getArestas().size(); i++) {
 
 			Vertice destino = v1.getArestas().get(i).getDestino();
 						
-			if (destino.getDescricao().equals(v2.getDescricao())){		
-				System.out.println(v1.getDescricao() + " ----> " + v2.getDescricao());
-			} else
-				buscaPorProfundidade(destino, v2);
+			if (destino.getDescricao().equals(v2.getDescricao())){							
+								
+				paradas = 0;
+								
+			} else{			 
+				buscaEmProfundidade(destino, v2, maximoParadas);
+			}
 		}
 		
+		// Marca o vertice atual como visitado e o retira da lista de nao visitados
 		v1.visitar();
 		
+		// incrementa o contador de paradas
+		paradas++;		
 	}
 		
 }

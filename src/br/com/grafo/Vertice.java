@@ -2,6 +2,11 @@ package br.com.grafo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author gustavo.souza
+ *
+ */
 public class Vertice implements Comparable<Vertice> {
 
 	private String descricao;

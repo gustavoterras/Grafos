@@ -1,5 +1,10 @@
 package br.com.grafo;
 
+/**
+ * 
+ * @author gustavo.souza
+ *
+ */
 public class Aresta {
 
 	private int peso;
