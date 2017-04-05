@@ -1,3 +1,4 @@
+package br.com.grafo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,35 +9,55 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Application {
+public class Aplicacao {
 
+	private static final String ARQUIVO = "../Grafos/src/grafo.txt";
+	
 	public static void main(String args[]) {
 
-		Grafo grafo = new Grafo();
+		Grafo grafo = new Grafo(construirGrafo(ARQUIVO));
 		Dijkstra algoritmo = new Dijkstra();
 
-		grafo.setVertices(lerGrafo("../Grafos/src/grafo.txt"));
-
-//		System.out.println("Esse é disância percorrida: " + calculaDistancia(grafo, new String[]{"A", "B", "C"}));
-//		System.out.println("Esse é disância percorrida: " + calculaDistancia(grafo, new String[]{"A", "D"}));
-//		System.out.println("Esse é disância percorrida: " + calculaDistancia(grafo, new String[]{"A", "D", "C"}));
-//		System.out.println("Esse é disância percorrida: " + calculaDistancia(grafo, new String[]{"A", "E", "B", "C", "D"}));
-//		System.out.println("Esse é disância percorrida: " + calculaDistancia(grafo, new String[]{"A", "E", "D"}));
-
-		Vertice vertice1 = new Vertice();
-		Vertice vertice2 = new Vertice();
-
-		vertice1 = grafo.encontrarVertice("C");
-		vertice2 = grafo.encontrarVertice("C");
-
-		algoritmo.go(vertice1, vertice2, 3);
+		// The distance of the route A-B-C
+		System.out.println("Output #1: " + algoritmo.calculaDistancia(grafo, new String[]{"A", "B", "C"}));
 		
-		//List<Vertice> resultado = algoritmo.encontrarMenorCaminho(grafo, vertice1, vertice2);
-		//System.out.println("Esse é o menor caminho feito pelo algoritmo: " + resultado);
+		// The distance of the route A-D
+		System.out.println("Output #2: " + algoritmo.calculaDistancia(grafo, new String[]{"A", "D"}));
+		
+		// The distance of the route A-D-C
+		System.out.println("Output #3: " + algoritmo.calculaDistancia(grafo, new String[]{"A", "D", "C"}));
+		
+		// The distance of the route A-E-B-C-D
+		System.out.println("Output #4: " + algoritmo.calculaDistancia(grafo, new String[]{"A", "E", "B", "C", "D"}));
+		
+		// The distance of the route A-E-D
+		System.out.println("Output #5: " + algoritmo.calculaDistancia(grafo, new String[]{"A", "E", "D"}));
+		
+		// The length of the shortest route (in terms of distance to travel) from A to C
+		List<Vertice> resultado8 = algoritmo.encontrarMenorCaminho(grafo, grafo.encontrarVertice("A"), grafo.encontrarVertice("C"));
+		
+		String[] caminho8 = new String[resultado8.size()];
+
+		for (int i = 0; i < resultado8.size(); i++) {
+			caminho8[i] = resultado8.get(i).getDescricao();
+		}
+		
+		System.out.println("Output #8: " + algoritmo.calculaDistancia(grafo, caminho8));
+		
+		// The length of the shortest route (in terms of distance to travel) from B to B
+		List<Vertice> resultado9 = algoritmo.encontrarMenorCaminho(grafo, grafo.encontrarVertice("B"), grafo.encontrarVertice("B"));
+		
+		String[] caminho9 = new String[resultado9.size()];
+
+		for (int i = 0; i < resultado9.size(); i++) {
+			caminho9[i] = resultado9.get(i).getDescricao();
+		}
+		
+		System.out.println("Output #9: " + algoritmo.calculaDistancia(grafo, caminho9));
 		
 	}
 
-	public static List<Vertice> lerGrafo(String nomeArquivo) {
+	public static List<Vertice> construirGrafo(String nomeArquivo) {
 
 		Grafo g = new Grafo();
 		Vertice v;

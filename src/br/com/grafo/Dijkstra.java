@@ -1,3 +1,4 @@
+package br.com.grafo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Dijkstra {
 	 * @param caminhos Caminhos a percorrer
 	 * @return Distância total
 	 */
-	public int calculaDistancia(Grafo grafo, String[] caminhos) {
+	public int calculaDistancia(Grafo grafo, String[] caminho) {
 
 		// Variavel que recebe soma dos pessos das arestas
 		int distanciaTotal = 0;
@@ -42,12 +43,12 @@ public class Dijkstra {
 				// Variavel aresta
 				Aresta aresta = vertice.getArestas().get(j);
 				
-				for (int k = 0; k < caminhos.length; k++) {
+				for (int k = 0; k < caminho.length; k++) {
 
-					if(k == caminhos.length -1) continue;
+					if(k == caminho.length -1) continue;
 					
 					// Caso aresta de origem e destino for igual a descricao do vertice de oirgem e destino soma a distancia
-					if(aresta.getOrigem().getDescricao().equals(caminhos[k]) && aresta.getDestino().getDescricao().equals(caminhos[k + 1]))
+					if(aresta.getOrigem().getDescricao().equals(caminho[k]) && aresta.getDestino().getDescricao().equals(caminho[k + 1]))
 						distanciaTotal += aresta.getPeso();
 				}
 				
@@ -67,8 +68,6 @@ public class Dijkstra {
 	 * @return lista de vértices com o caminho mais curto percorrido pelo algoritimo
 	 */
 	public List<Vertice> encontrarMenorCaminho(Grafo grafo, Vertice v1, Vertice v2) {
-
-		System.out.println("Saindo de " + v1.getDescricao()  + " indo para " + v2.getDescricao());
 		
 		// Adiciona a origem na lista do menor caminho
 		menorCaminho.add(v1);
@@ -93,7 +92,7 @@ public class Dijkstra {
 
 			// Toma-se sempre o vertice com menor distancia, que é o primeiro da lista
 			atual = this.naoVisitados.get(0);
-			System.out.println("Pegou esse vertice:  " + atual);
+
 			/*
 			 * Para cada vizinho (cada aresta), calcula-se a sua possivel
 			 * distancia, somando a distancia do vertice atual com a da aresta
@@ -103,7 +102,6 @@ public class Dijkstra {
 			for (int i = 0; i < atual.getArestas().size(); i++) {
 
 				vizinho = atual.getArestas().get(i).getDestino();
-				System.out.println("Olhando o vizinho de " + atual + ": " + vizinho);
 				
 				if (!vizinho.verificarVisita()) {
 
@@ -147,27 +145,13 @@ public class Dijkstra {
 			
 			// Ordena a lista, para que o vertice com menor distancia fique na primeira posicao 
 			Collections.sort(naoVisitados);
-			System.out.println("Nao foram visitados ainda:" + naoVisitados);
 
 		}
 
 		return menorCaminho;
 	}
 	
-	public void go(Vertice v1, Vertice v2, int paradas) {
-			
-		dsf(v1, v2);
-		
-		System.out.println("visitando " + count);
-	}
-	
-	
-	int count = 0;
-	private void dsf(Vertice v1, Vertice v2) {
-		
-		if(count == 3) return;
-		
-		count++;
+	public void buscaPorProfundidade(Vertice v1, Vertice v2) {
 		
 		if(v1.verificarVisita()) return;
 		
@@ -180,7 +164,7 @@ public class Dijkstra {
 			if (destino.getDescricao().equals(v2.getDescricao())){		
 				System.out.println(v1.getDescricao() + " ----> " + v2.getDescricao());
 			} else
-				dsf(destino, v2);
+				buscaPorProfundidade(destino, v2);
 		}
 		
 		v1.visitar();

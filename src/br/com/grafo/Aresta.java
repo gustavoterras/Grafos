@@ -1,3 +1,4 @@
+package br.com.grafo;
 
 public class Aresta {
 
